@@ -2,6 +2,7 @@ package mx.edu.ittepic.ladm_u2_practica1_loteria_marioavalos_danielsandoval
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -9,21 +10,33 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    var imagenes = arrayOf(R.drawable.i1,R.drawable.i2,R.drawable.i3,R.drawable.i4,R.drawable.i5,R.drawable.i6,
-        R.drawable.i7,R.drawable.i8,R.drawable.i9,R.drawable.i10,R.drawable.i11,R.drawable.i12,R.drawable.i13,
-        R.drawable.i14,R.drawable.i15,R.drawable.i16,R.drawable.i17,R.drawable.i18,R.drawable.i19,R.drawable.i20,
-        R.drawable.i21,R.drawable.i22,R.drawable.i23,R.drawable.i24,R.drawable.i26,R.drawable.i27,R.drawable.i28,
-        R.drawable.i29,R.drawable.i30,R.drawable.i31,R.drawable.i32,R.drawable.i33,R.drawable.i34,R.drawable.i35,
-        R.drawable.i36,R.drawable.i37,R.drawable.i38,R.drawable.i39,R.drawable.i40,R.drawable.i41,R.drawable.i42,
-        R.drawable.i43,R.drawable.i44,R.drawable.i45,R.drawable.i46,R.drawable.i47,R.drawable.i48,R.drawable.i49,
-        R.drawable.i50,R.drawable.i51,R.drawable.i52,R.drawable.i53,R.drawable.i54)
+    var baraja = arrayOf(R.drawable.carta11,R.drawable.carta2,
+        R.drawable.carta3,R.drawable.carta4,R.drawable.carta5,
+        R.drawable.carta6,R.drawable.carta7,R.drawable.carta8,
+        R.drawable.carta9,R.drawable.carta10,R.drawable.carta11,
+        R.drawable.carta12,R.drawable.carta13,R.drawable.carta14,
+        R.drawable.carta15,R.drawable.carta16,R.drawable.carta17,
+        R.drawable.carta18,R.drawable.carta19,R.drawable.carta20,
+        R.drawable.carta21,R.drawable.carta22,R.drawable.carta23,
+        R.drawable.carta24,R.drawable.carta25,R.drawable.carta26,
+        R.drawable.carta27,R.drawable.carta28,R.drawable.carta29,
+        R.drawable.carta30,R.drawable.carta31,R.drawable.carta32,
+        R.drawable.carta33,R.drawable.carta34,R.drawable.carta35,
+        R.drawable.carta36,R.drawable.carta37,R.drawable.carta38,
+        R.drawable.carta39,R.drawable.carta40,R.drawable.carta41,
+        R.drawable.carta42,R.drawable.carta43,R.drawable.carta44,
+        R.drawable.carta45,R.drawable.carta46,R.drawable.carta47,
+        R.drawable.carta48,R.drawable.carta49,R.drawable.carta50,
+        R.drawable.carta51,R.drawable.carta52,R.drawable.carta53,
+        R.drawable.carta54)
 
-    var arregloNumeros = ArrayList<Int>()
-    var contador = 0
+    var barajeada = ArrayList<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        barajear()
 
         bt_tirar.setOnClickListener {
             corrutinaImagenLoteria()
@@ -31,18 +44,59 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun corrutinaImagenLoteria() = GlobalScope.launch {
-
-        while (contador < 54){
-            var numeroAleatorio = Math.random()*54
-            arregloNumeros.add(numeroAleatorio.toInt())
-            contador++
-        }
-
-        for (imagen in arregloNumeros) {
+        for (carta in barajeada) {
+            Log.i("Carta a tirar: ","$carta")
             runOnUiThread() {
-                iv_baraja.setImageResource(imagenes[imagen])
+                iv_baraja.setImageResource(baraja[carta])
             }
-            delay(1000)
+            delay(3000)
         }
     }
+
+    fun barajear(){
+        var carta = 0
+        var tiro = 1
+        var cartaAleatoria = ((Math.random()*54)).toInt()
+        barajeada.add(cartaAleatoria)
+        while (carta<53){
+            cartaAleatoria = ((Math.random()*54)).toInt()
+            if(!barajeada.contains(cartaAleatoria)){
+                barajeada.add(cartaAleatoria)
+                carta++
+            }
+        }
+        for (i in 0..barajeada.size-1){
+            Log.i("Barajeada No. $tiro","${barajeada[i]}")
+            tiro++
+        }
+    }
+}
+
+class HiloBaraja(main:MainActivity):Thread(){
+    val m = main
+    var carta = 0
+    var tiro = 1
+    override fun run() {
+        super.run()
+        var cartaAleatoria = ((Math.random()*54)).toInt()
+        m.barajeada.add(cartaAleatoria)
+        Log.i("Primer Carta: ","$cartaAleatoria")
+        while (carta<53){
+            cartaAleatoria = ((Math.random()*54)).toInt()
+            if(!m.barajeada.contains(cartaAleatoria)){
+                m.barajeada.add(cartaAleatoria)
+                //Log.i("Carta No ${m.barajeada.size}: ","$cartaAleatoria")
+                carta++
+                sleep(10)
+            }
+        }
+        for (i in 0..m.barajeada.size-1){
+            Log.i("Carta No. $tiro","${m.barajeada[i]}")
+            tiro++
+        }
+
+
+
+    }
+
 }

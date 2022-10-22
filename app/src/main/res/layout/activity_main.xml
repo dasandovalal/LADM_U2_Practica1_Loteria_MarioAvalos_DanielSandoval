@@ -4,12 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E4007C"
     tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LOTERIA"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:textSize="50sp"
+        android:textColor="@color/white"
+        />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/i1"
+        android:src="@drawable/loteria"
         android:id="@+id/iv_baraja"
         android:layout_gravity="center"/>
 
@@ -19,6 +30,7 @@
         android:text="Tirar"
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="100dp"
-        android:id="@+id/bt_tirar"/>
+        android:id="@+id/bt_tirar"
+        android:textSize="20sp"/>
 
 </FrameLayout>
