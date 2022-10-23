@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    var baraja = arrayOf(R.drawable.carta11,R.drawable.carta2,
+    var baraja = arrayOf(R.drawable.carta1,R.drawable.carta2,
         R.drawable.carta3,R.drawable.carta4,R.drawable.carta5,
         R.drawable.carta6,R.drawable.carta7,R.drawable.carta8,
         R.drawable.carta9,R.drawable.carta10,R.drawable.carta11,
