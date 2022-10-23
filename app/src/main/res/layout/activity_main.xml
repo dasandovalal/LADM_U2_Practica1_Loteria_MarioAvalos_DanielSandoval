@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="LOTERIA"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:textSize="50sp"
         android:textColor="@color/white"
         />
@@ -21,16 +21,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/loteria"
-        android:id="@+id/iv_baraja"
         android:layout_gravity="center"/>
-
-    <Button
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tirar"
+        android:layout_gravity="center"
+        android:id="@+id/iv_cartaJugada"
+        android:layout_marginBottom="50dp"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="jugar"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="100dp"
         android:id="@+id/bt_tirar"
-        android:textSize="20sp"/>
+        android:textSize="30sp"/>
 
 </FrameLayout>

@@ -35,8 +35,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar!!.hide()
 
-        barajear()
+        var hiloBarajear = HiloBaraja(this)
+        hiloBarajear.start()
 
         bt_tirar.setOnClickListener {
             corrutinaImagenLoteria()
@@ -44,59 +46,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun corrutinaImagenLoteria() = GlobalScope.launch {
+
         for (carta in barajeada) {
-            Log.i("Carta a tirar: ","$carta")
             runOnUiThread() {
-                iv_baraja.setImageResource(baraja[carta])
+                iv_cartaJugada.setImageResource(baraja[carta])
             }
             delay(3000)
         }
     }
 
-    fun barajear(){
-        var carta = 0
-        var tiro = 1
-        var cartaAleatoria = ((Math.random()*54)).toInt()
-        barajeada.add(cartaAleatoria)
-        while (carta<53){
-            cartaAleatoria = ((Math.random()*54)).toInt()
-            if(!barajeada.contains(cartaAleatoria)){
-                barajeada.add(cartaAleatoria)
-                carta++
-            }
-        }
-        for (i in 0..barajeada.size-1){
-            Log.i("Barajeada No. $tiro","${barajeada[i]}")
-            tiro++
-        }
-    }
+
 }
 
 class HiloBaraja(main:MainActivity):Thread(){
     val m = main
     var carta = 0
-    var tiro = 1
+    var cartaAleatoria = 0
     override fun run() {
         super.run()
-        var cartaAleatoria = ((Math.random()*54)).toInt()
+        barajear()
+    }
+
+    fun barajear(){
+        cartaAleatoria = ((Math.random()*54)).toInt()
         m.barajeada.add(cartaAleatoria)
-        Log.i("Primer Carta: ","$cartaAleatoria")
         while (carta<53){
             cartaAleatoria = ((Math.random()*54)).toInt()
             if(!m.barajeada.contains(cartaAleatoria)){
                 m.barajeada.add(cartaAleatoria)
-                //Log.i("Carta No ${m.barajeada.size}: ","$cartaAleatoria")
                 carta++
                 sleep(10)
             }
         }
-        for (i in 0..m.barajeada.size-1){
-            Log.i("Carta No. $tiro","${m.barajeada[i]}")
+        /*for (i in 0..m.barajeada.size-1){
+            Log.i("Barajeada No. $tiro","${m.barajeada[i]}")
             tiro++
-        }
-
-
-
+        }*/ //Verificar que todas las cartas de barajearon sin repetir
     }
-
 }
