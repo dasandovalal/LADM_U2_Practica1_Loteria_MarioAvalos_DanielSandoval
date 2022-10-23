@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     var juegoEmpezado = false
     var jugando = false
+    var ganador = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +46,19 @@ class MainActivity : AppCompatActivity() {
         val juego = HiloJuego(this)
 
         bt_jugar.setOnClickListener {
-            juego.start()
+            if (!juegoEmpezado) {
+                juego.start()
+                bt_jugar.text = "¡LOTERIA!"
+            }else if (juegoEmpezado){
+                jugando = !jugando
+                ganador = true
+                if (jugando){
+                    bt_jugar.text = "Pausa"
+                }
+                else if(!jugando){
+                    bt_jugar.text = "Seguir... "
+                }
+            }
         }
     }
 
@@ -90,12 +103,19 @@ class HiloJuego(m:MainActivity):Thread(){
         try{
             while (m.juegoEmpezado){
                 while (m.jugando){
-                    if (cartaHilo<54) {
+                    if (cartaHilo<54 && !m.ganador) {
                         m.runOnUiThread {
                             m.iv_cartaJugada.setImageResource(m.baraja[m.barajeada[cartaHilo]])
                             cartaHilo++
                         }
-                        sleep(500)
+                        sleep(3000)
+                    }
+                    else if (cartaHilo<54 && m.ganador){
+                        m.runOnUiThread {
+                            m.iv_cartaJugada.setImageResource(m.baraja[m.barajeada[cartaHilo]])
+                            cartaHilo++
+                        }
+                        sleep(1000)
                     }
                 }
             }
