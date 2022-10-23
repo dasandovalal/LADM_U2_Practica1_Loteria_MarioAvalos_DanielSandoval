@@ -1,8 +1,10 @@
 package mx.edu.ittepic.ladm_u2_practica1_loteria_marioavalos_danielsandoval
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     var juegoEmpezado = false
     var jugando = false
     var ganador = false
+    var juegoTerminado = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +62,12 @@ class MainActivity : AppCompatActivity() {
                     bt_jugar.text = "Seguir... "
                 }
             }
+        }
+
+        bt_nuevo.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            this.startActivity(intent)
+            finishAffinity()
         }
     }
 
@@ -115,7 +124,13 @@ class HiloJuego(m:MainActivity):Thread(){
                             m.iv_cartaJugada.setImageResource(m.baraja[m.barajeada[cartaHilo]])
                             cartaHilo++
                         }
-                        sleep(1000)
+                        sleep(1500)
+                    }else{
+                        m.runOnUiThread {
+                            m.bt_jugar.visibility = View.INVISIBLE
+                            m.bt_nuevo.visibility = View.VISIBLE
+                        }
+                        sleep(10)
                     }
                 }
             }

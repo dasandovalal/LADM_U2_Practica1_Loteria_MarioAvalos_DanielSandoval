@@ -38,5 +38,14 @@
         android:layout_gravity="center|bottom"
         android:id="@+id/bt_jugar"
         android:textSize="30sp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="JUEGO NUEVO"
+        android:layout_gravity="center|bottom"
+        android:id="@+id/bt_nuevo"
+        android:visibility="invisible"
+        android:textSize="30sp"/>
 
 </FrameLayout>
