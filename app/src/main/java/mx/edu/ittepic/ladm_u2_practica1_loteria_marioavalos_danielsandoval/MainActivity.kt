@@ -1,6 +1,7 @@
 package mx.edu.ittepic.ladm_u2_practica1_loteria_marioavalos_danielsandoval
 
 import android.content.Intent
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -33,6 +34,19 @@ class MainActivity : AppCompatActivity() {
         R.drawable.carta51,R.drawable.carta52,R.drawable.carta53,
         R.drawable.carta54)
 
+    var audioCartas = arrayOf(R.raw.carta1,R.raw.carta2,R.raw.carta3,
+        R.raw.carta4,R.raw.carta5,R.raw.carta6,R.raw.carta7,R.raw.carta8,
+        R.raw.carta9,R.raw.carta10,R.raw.carta11,R.raw.carta12,R.raw.carta13,
+        R.raw.carta14,R.raw.carta15,R.raw.carta16,R.raw.carta17,R.raw.carta18,
+        R.raw.carta19,R.raw.carta20,R.raw.carta21,R.raw.carta22,R.raw.carta23,
+        R.raw.carta24,R.raw.carta25,R.raw.carta26,R.raw.carta27,R.raw.carta28,
+        R.raw.carta29,R.raw.carta30,R.raw.carta31,R.raw.carta32,R.raw.carta33,
+        R.raw.carta34,R.raw.carta35,R.raw.carta36,R.raw.carta37,R.raw.carta38,
+        R.raw.carta39,R.raw.carta40,R.raw.carta41,R.raw.carta42,R.raw.carta43,
+        R.raw.carta44,R.raw.carta45,R.raw.carta46,R.raw.carta47,R.raw.carta48,
+        R.raw.carta49,R.raw.carta50,R.raw.carta51,R.raw.carta52,R.raw.carta53,
+        R.raw.carta54)
+
     var barajeada = ArrayList<Int>()
 
     var juegoEmpezado = false
@@ -49,9 +63,13 @@ class MainActivity : AppCompatActivity() {
 
         bt_jugar.setOnClickListener {
             if (!juegoEmpezado) {
-                juego.start()
+                var seCorre = MediaPlayer.create(this,R.raw.iniciar_loteria)
+                seCorre.start()
+                Thread.sleep(3000)
                 bt_jugar.text = "¡LOTERIA!"
                 bt_jugar.textSize = 45f
+                juego.start()
+
             }else if (juegoEmpezado){
                 jugando = !jugando
                 ganador = true
@@ -96,6 +114,7 @@ class MainActivity : AppCompatActivity() {
 class HiloJuego(m:MainActivity):Thread(){
     val m = m
     var cartaHilo = 0
+    lateinit var cantor : MediaPlayer
     override fun run() {
         super.run()
         m.juegoEmpezado = true
@@ -106,6 +125,8 @@ class HiloJuego(m:MainActivity):Thread(){
                     if (cartaHilo<54 && !m.ganador) {
                         m.runOnUiThread {
                             m.iv_cartaJugada.setImageResource(m.baraja[m.barajeada[cartaHilo]])
+                            cantor = MediaPlayer.create(m,m.audioCartas[m.barajeada[cartaHilo]])
+                            cantor.start()
                             cartaHilo++
                         }
                         sleep(3000)
@@ -113,9 +134,11 @@ class HiloJuego(m:MainActivity):Thread(){
                     else if (cartaHilo<54 && m.ganador){
                         m.runOnUiThread {
                             m.iv_cartaJugada.setImageResource(m.baraja[m.barajeada[cartaHilo]])
+                            cantor = MediaPlayer.create(m,m.audioCartas[m.barajeada[cartaHilo]])
+                            cantor.start()
                             cartaHilo++
                         }
-                        sleep(1500)
+                        sleep(2000)
                     }else{
                         m.runOnUiThread {
                             m.bt_jugar.visibility = View.INVISIBLE
