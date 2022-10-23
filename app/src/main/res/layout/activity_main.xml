@@ -36,7 +36,7 @@
         android:layout_margin="30dp"
         android:text="jugar"
         android:layout_gravity="center|bottom"
-        android:id="@+id/bt_tirar"
+        android:id="@+id/bt_jugar"
         android:textSize="30sp"/>
 
 </FrameLayout>

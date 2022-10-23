@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,20 +33,23 @@ class MainActivity : AppCompatActivity() {
 
     var barajeada = ArrayList<Int>()
 
+    var juegoEmpezado = false
+    var jugando = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar!!.hide()
 
-        var hiloBarajear = HiloBaraja(this)
-        hiloBarajear.start()
+        corrutinaBarajeadora()
+        val juego = HiloJuego(this)
 
-        bt_tirar.setOnClickListener {
-            corrutinaImagenLoteria()
+        bt_jugar.setOnClickListener {
+            juego.start()
         }
     }
 
-    fun corrutinaImagenLoteria() = GlobalScope.launch {
+    /*fun corrutinaImagenLoteria() = GlobalScope.launch {
 
         for (carta in barajeada) {
             runOnUiThread() {
@@ -53,12 +57,55 @@ class MainActivity : AppCompatActivity() {
             }
             delay(3000)
         }
+    }*/
+
+    fun corrutinaBarajeadora() = GlobalScope.launch {
+        var tiro = 0
+        var carta = 0
+        var cartaAleatoria = ((Math.random()*54)).toInt()
+        barajeada.add(cartaAleatoria)
+        while (carta<53){
+            cartaAleatoria = ((Math.random()*54)).toInt()
+            if(!barajeada.contains(cartaAleatoria)){
+                barajeada.add(cartaAleatoria)
+                carta++
+                delay(10)
+            }
+        }
+        for (i in 0..barajeada.size-1){
+            Log.i("Barajeada No. $tiro","${barajeada[i]}")
+            tiro++
+        } //Verificar que todas las cartas de barajearon sin repetir
+
     }
-
-
 }
 
-class HiloBaraja(main:MainActivity):Thread(){
+class HiloJuego(m:MainActivity):Thread(){
+    val m = m
+    var cartaHilo = 0
+    override fun run() {
+        super.run()
+        m.juegoEmpezado = true
+        m.jugando = true
+        try{
+            while (m.juegoEmpezado){
+                while (m.jugando){
+                    if (cartaHilo<54) {
+                        m.runOnUiThread {
+                            m.iv_cartaJugada.setImageResource(m.baraja[m.barajeada[cartaHilo]])
+                            cartaHilo++
+                        }
+                        sleep(500)
+                    }
+                }
+            }
+        }catch (e:Exception){
+            Log.d("~Problema: ","${e.message}")
+        }
+    }
+}
+
+/*class HiloBaraja(main:MainActivity):Thread(){
     val m = main
     var carta = 0
     var cartaAleatoria = 0
@@ -83,4 +130,4 @@ class HiloBaraja(main:MainActivity):Thread(){
             tiro++
         }*/ //Verificar que todas las cartas de barajearon sin repetir
     }
-}
+}*/
