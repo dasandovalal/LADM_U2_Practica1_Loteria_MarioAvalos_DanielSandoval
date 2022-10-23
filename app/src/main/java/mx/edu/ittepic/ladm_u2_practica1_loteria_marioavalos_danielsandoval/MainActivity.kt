@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 seCorre.start()
                 Thread.sleep(3000)
                 bt_jugar.text = "¡LOTERIA!"
-                bt_jugar.textSize = 45f
+                bt_jugar.textSize = 40f
                 juego.start()
 
             }else if (juegoEmpezado){
@@ -138,7 +138,7 @@ class HiloJuego(m:MainActivity):Thread(){
                             cantor.start()
                             cartaHilo++
                         }
-                        sleep(2000)
+                        sleep(1750)
                     }else{
                         m.runOnUiThread {
                             m.bt_jugar.visibility = View.INVISIBLE
