@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
     var juegoEmpezado = false
     var jugando = false
     var ganador = false
-    var juegoTerminado = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +51,7 @@ class MainActivity : AppCompatActivity() {
             if (!juegoEmpezado) {
                 juego.start()
                 bt_jugar.text = "¡LOTERIA!"
+                bt_jugar.textSize = 45f
             }else if (juegoEmpezado){
                 jugando = !jugando
                 ganador = true
@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 else if(!jugando){
                     bt_jugar.text = "Seguir... "
+                    bt_jugar.textSize = 30f
                 }
             }
         }
@@ -70,16 +71,6 @@ class MainActivity : AppCompatActivity() {
             finishAffinity()
         }
     }
-
-    /*fun corrutinaImagenLoteria() = GlobalScope.launch {
-
-        for (carta in barajeada) {
-            runOnUiThread() {
-                iv_cartaJugada.setImageResource(baraja[carta])
-            }
-            delay(3000)
-        }
-    }*/
 
     fun corrutinaBarajeadora() = GlobalScope.launch {
         var tiro = 0
@@ -94,10 +85,10 @@ class MainActivity : AppCompatActivity() {
                 delay(10)
             }
         }
-        for (i in 0..barajeada.size-1){
+        /*for (i in 0..barajeada.size-1){
             Log.i("Barajeada No. $tiro","${barajeada[i]}")
             tiro++
-        } //Verificar que todas las cartas de barajearon sin repetir
+        } *///Verificar que todas las cartas de barajearon sin repetir
 
     }
 }
@@ -139,30 +130,3 @@ class HiloJuego(m:MainActivity):Thread(){
         }
     }
 }
-
-/*class HiloBaraja(main:MainActivity):Thread(){
-    val m = main
-    var carta = 0
-    var cartaAleatoria = 0
-    override fun run() {
-        super.run()
-        barajear()
-    }
-
-    fun barajear(){
-        cartaAleatoria = ((Math.random()*54)).toInt()
-        m.barajeada.add(cartaAleatoria)
-        while (carta<53){
-            cartaAleatoria = ((Math.random()*54)).toInt()
-            if(!m.barajeada.contains(cartaAleatoria)){
-                m.barajeada.add(cartaAleatoria)
-                carta++
-                sleep(10)
-            }
-        }
-        /*for (i in 0..m.barajeada.size-1){
-            Log.i("Barajeada No. $tiro","${m.barajeada[i]}")
-            tiro++
-        }*/ //Verificar que todas las cartas de barajearon sin repetir
-    }
-}*/
