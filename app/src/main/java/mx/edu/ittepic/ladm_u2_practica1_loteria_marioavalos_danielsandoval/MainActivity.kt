@@ -136,12 +136,15 @@ class HiloJuego(m:MainActivity):Thread(){
                     }
                     else if (cartaHilo<54 && m.ganador){
                         m.runOnUiThread {
+                            //m.iv_cartaJugada.setImageResource(m.baraja[41])
+                            //cantor = MediaPlayer.create(m,m.audioCartas[41])
                             m.iv_cartaJugada.setImageResource(m.baraja[m.barajeada[cartaHilo]])
                             cantor = MediaPlayer.create(m,m.audioCartas[m.barajeada[cartaHilo]])
                             cantor.start()
                             cartaHilo++
                         }
-                        sleep(1800)
+                        sleep((cantor.duration.toLong()))
+                        sleep(350)
                         cantor.stop()
                     }else{
                         m.runOnUiThread {
