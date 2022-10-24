@@ -132,6 +132,7 @@ class HiloJuego(m:MainActivity):Thread(){
                             cartaHilo++
                         }
                         sleep(3000)
+                        cantor.stop()
                     }
                     else if (cartaHilo<54 && m.ganador){
                         m.runOnUiThread {
@@ -140,7 +141,8 @@ class HiloJuego(m:MainActivity):Thread(){
                             cantor.start()
                             cartaHilo++
                         }
-                        sleep(1750)
+                        sleep(1800)
+                        cantor.stop()
                     }else{
                         m.runOnUiThread {
                             m.bt_jugar.visibility = View.INVISIBLE
